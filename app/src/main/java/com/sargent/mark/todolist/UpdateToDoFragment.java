@@ -61,6 +61,7 @@ public class UpdateToDoFragment extends DialogFragment implements AdapterView.On
         dp = (DatePicker) view.findViewById(R.id.datePicker);
         spinner = (Spinner) view.findViewById(R.id.category_spinner);
         add = (Button) view.findViewById(R.id.add);
+        //a
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),R.array.category_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

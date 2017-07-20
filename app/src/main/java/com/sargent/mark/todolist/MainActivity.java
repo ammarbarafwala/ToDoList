@@ -54,18 +54,20 @@ public class MainActivity extends AppCompatActivity implements ToDoListAdapter.O
         rv = (RecyclerView) findViewById(R.id.recyclerView);
         rv.setLayoutManager(new LinearLayoutManager(this));
     }
+    //created menu and added menu item
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.category, menu);
         MenuItem item = menu.findItem(R.id.item_category);
+        //adding spinner to menu item
         final Spinner spinner = (Spinner) MenuItemCompat.getActionView(item);
 
         final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.menu_category_array,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-
+        //added onclick listener so it will show items only of the category selected and default will show all
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -116,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements ToDoListAdapter.O
                 UpdateToDoFragment frag = UpdateToDoFragment.newInstance(year, month, day, description, id, category);
                 frag.show(fm, "updatetodofragment");
             }
-        }, db);
+        }, db);//sharing database pointer with adapter
 
         rv.setAdapter(adapter);
 
@@ -148,8 +150,7 @@ public class MainActivity extends AppCompatActivity implements ToDoListAdapter.O
         return String.format("%04d-%02d-%02d", year, month + 1, day);
     }
 
-
-
+    //added where variable to provide with a condition depending on category selected
     private Cursor getAllItems(SQLiteDatabase db, String where) {
         return db.query(
                 Contract.TABLE_TODO.TABLE_NAME,

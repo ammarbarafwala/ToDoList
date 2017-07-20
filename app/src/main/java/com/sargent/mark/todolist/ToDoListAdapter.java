@@ -61,6 +61,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
     public ToDoListAdapter(Cursor cursor, ItemClickListener listener, SQLiteDatabase db) {
         this.cursor = cursor;
         this.listener = listener;
+        //added database varaible for adding checkbox details
         this.db=db;
     }
 
@@ -91,6 +92,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
             super(view);
             descr = (TextView) view.findViewById(R.id.description);
             due = (TextView) view.findViewById(R.id.dueDate);
+            //added category and checkbox pointers
             categ = (TextView) view.findViewById(R.id.category);
             checkBox = (CheckBox) view.findViewById(R.id.checkbox);
             view.setOnClickListener(this);
@@ -103,16 +105,18 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
             duedate = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE));
             description = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_DESCRIPTION));
             category=cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_CATEGORY));
+            //setting the values by getting from database
             checked=cursor.getInt(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_Checked))>0;
             descr.setText(description);
             due.setText(duedate);
             categ.setText(category);
             holder.itemView.setTag(id);
             checkBox.setChecked(checked);
-
+            //getting the checkbox value whenever clicked
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    //saving the checkbox value in database
                     ContentValues cv = new ContentValues();
                     cv.put(Contract.TABLE_TODO.COLUMN_NAME_Checked, isChecked);
                     db.update(Contract.TABLE_TODO.TABLE_NAME, cv, Contract.TABLE_TODO._ID + "=" + id, null);
